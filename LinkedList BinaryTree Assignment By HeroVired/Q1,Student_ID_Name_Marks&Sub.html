@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+class Student {
+    constructor(id, name, marks) {
+      this.id = id;
+      this.name = name;
+      this.marks = marks;
+      this.totalMarks = marks.reduce((total, mark) => total + mark, 0);
+      this.percentage = (this.totalMarks / 5).toFixed(2);
+      this.left = null;
+      this.right = null;
+    }
+  }
+  
+  class StudentTree {
+    constructor() {
+      this.root = null;
+    }
+  
+    insert(student) {
+      if (this.root === null) {
+        this.root = student;
+      } else {
+        this.insertNode(this.root, student);
+      }
+    }
+  
+    insertNode(node, student) {
+      if (student.percentage < node.percentage) {
+        if (node.left === null) {
+          node.left = student;
+        } else {
+          this.insertNode(node.left, student);
+        }
+      } else {
+        if (node.right === null) {
+          node.right = student;
+        } else {
+          this.insertNode(node.right, student);
+        }
+      }
+    }
+  
+    search(name) {
+      return this.searchNode(this.root, name);
+    }
+  
+    searchNode(node, name) {
+      if (node === null) {
+        return null;
+      } else if (node.name === name) {
+        return node;
+      } else if (name < node.name) {
+        return this.searchNode(node.left, name);
+      } else {
+        return this.searchNode(node.right, name);
+      }
+    }
+  }
+  
+  function main() {
+    const studentTree = new StudentTree();
+  
+    while (true) {
+      console.log("Options:");
+      console.log("1. Add student data");
+      console.log("2. Search for a student by name");
+      console.log("3. Exit");
+      const choice = prompt("Enter your choice:");
+  
+      if (choice === "1") {
+        const id = prompt("Enter student id:");
+        const name = prompt("Enter student name:");
+        const marks = [];
+        for (let i = 1; i <= 5; i++) {
+          const mark = parseInt(prompt(`Enter mark ${i}:`));
+          marks.push(mark);
+        }
+        const student = new Student(id, name, marks);
+        studentTree.insert(student);
+        console.log("Student data added successfully.");
+      } else if (choice === "2") {
+        const name = prompt("Enter student name:");
+        const student = studentTree.search(name);
+        if (student) {
+          console.log(`ID: ${student.id}, Name: ${student.name}`);
+          console.log("Marks:");
+          for (let i = 0; i < student.marks.length; i++) {
+            console.log(`Subject ${i + 1}: ${student.marks[i]}`);
+          }
+          console.log(`Percentage: ${student.percentage}%`);
+        } else {
+          console.log(`Student '${name}' not found.`);
+        }
+      } else if (choice === "3") {
+        console.log("Exiting program.");
+        break;
+      } else {
+        console.log("Invalid choice. Please try again.");
+      }
+    }
+    
+  }
+  
+  main();
+</script>
+</head>
+<body>
+    
+</body>
+</html>
+ 
+ 
+
+  
+//   In this program, we define two classes: Student and StudentTree. The Student class represents a single student and has properties for id, name, marks, totalMarks, percentage, left, and right. The StudentTree class represents a binary search

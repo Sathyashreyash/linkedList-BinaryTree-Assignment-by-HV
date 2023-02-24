@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+class Customer {
+    constructor(id, name, purchaseDate, billAmount) {
+        this.id = id;
+        this.name = name;
+        this.purchaseDate = purchaseDate;
+        this.billAmount = billAmount;
+    }
+}
+
+class CustomerList {
+    constructor() {
+        this.customers = [];
+    }
+
+    addCustomer(customer) {
+        this.customers.push(customer);
+    }
+
+    sortCustomersByBillAmount() {
+        const sortedCustomers = this.customers.sort((a, b) => a.billAmount - b.billAmount);
+        for (let customer of sortedCustomers) {
+            console.log(`ID: ${customer.id}, Name: ${customer.name}, Purchase Date: ${customer.purchaseDate}, Bill Amount: ${customer.billAmount}`);
+        }
+    }
+
+    getTotalPurchaseAmountByYear(year) {
+        let totalAmount = 0;
+        for (let customer of this.customers) {
+            if (customer.purchaseDate.endsWith(year)) {
+                totalAmount += customer.billAmount;
+            }
+        }
+        console.log(`Total purchase amount for ${year}: ${totalAmount}`);
+    }
+
+    getCustomerDetailsByName(name) {
+        const customer = this.customers.find(c => c.name === name);
+        if (customer) {
+            console.log(`ID: ${customer.id}, Name: ${customer.name}, Purchase Date: ${customer.purchaseDate}, Bill Amount: ${customer.billAmount}`);
+        } else {
+            console.log(`Customer '${name}' not found.`);
+        }
+    }
+}
+
+function main() {
+    const customerList = new CustomerList();
+
+    while (true) {
+        console.log("Options:");
+        console.log("1. Add customer data");
+        console.log("2. View all customer data in sorted order based on bill amount");
+        console.log("3. View the total purchase amount for a specific year");
+        console.log("4. View details of a specific customer based on name");
+        console.log("5. Exit");
+        const choice = prompt("Enter your choice:");
+
+        if (choice === "1") {
+            const id = prompt("Enter customer id:");
+            const name = prompt("Enter customer name:");
+            const purchaseDate = prompt("Enter purchase date(dd/mm/yy):");
+            const billAmount = parseFloat(prompt("Enter bill amount:"));
+            const customer = new Customer(id, name, purchaseDate, billAmount);
+            customerList.addCustomer(customer);
+            console.log("Customer data added successfully.");
+        } else if (choice === "2") {
+            customerList.sortCustomersByBillAmount();
+        } else if (choice === "3") {
+            const year = prompt("Enter year:");
+            customerList.getTotalPurchaseAmountByYear(year);
+        } else if (choice === "4") {
+            const name = prompt("Enter customer name:");
+            customerList.getCustomerDetailsByName(name);
+        } else if (choice === "5") {
+            console.log("Exiting program.");
+            break;
+        } else {
+            console.log("Invalid choice. Please try again.");
+        }
+    }
+}
+
+
+
+main();
+</script>
+</head>
+<body>
+    
+</body>
+</html>
+
+
+
+//   In this program, we define two classes: Customer and CustomerList. The Customer class represents a single customer and has properties for id, name, purchaseDate, and billAmount. The CustomerList class represents a collection of customers and has methods for adding customers, sorting customers by bill amount, calculating the total purchase amount for a specific year, and getting the details of a specific customer based on name.
+
+// In the main function, we create an instance of the CustomerList class and then provide a menu with options for adding customer data
